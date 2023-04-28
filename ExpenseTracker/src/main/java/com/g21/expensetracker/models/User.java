@@ -1,6 +1,5 @@
-package com.g21.expensetracker.Models;
+package com.g21.expensetracker.models;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,24 +27,33 @@ public class User implements UserDetails {
 	private String nombrecompleto;
 	@Column(nullable= false, unique= true, length= 150 ,name = "email")
 	private String email;
-	@Column(nullable= true, length=64, name = "password")
+	@Column(nullable= false, length=64, name = "password")
 	private String password;
+
+	@Column(nullable= false, name = "salary")
+	private Double salary;
+
+	@Column(nullable= false,length = 150, name = "budgetlimit")
+	private Double budgetlimit;
+
 	@Column(nullable= false, name = "role")
 	@Enumerated(EnumType.STRING)
 	  private Role role;
 
-	
-	
+
+
 
 	public User() {
 		 super();
 	}
 
-	public User(String nombrecompleto, String email, String password, Role role) {
+	public User(String nombrecompleto, String email, String password,Double salary, Double budgetlimit, Role role) {
 		this.nombrecompleto = nombrecompleto;
 		this.email = email;
 		this.password = password;
 		this.role = role;
+		this.salary= salary;
+		this.budgetlimit = budgetlimit;
 	}
 
 	@Override
@@ -123,7 +131,20 @@ public class User implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	
 
+	public Double getSalary() {
+		return salary;
+	}
+
+	public void setSalary(Double salary) {
+		this.salary = salary;
+	}
+
+	public Double getBudgetlimit() {
+		return budgetlimit;
+	}
+
+	public void setBudgetlimit(Double budgetlimit) {
+		this.budgetlimit = budgetlimit;
+	}
 }
