@@ -82,4 +82,10 @@ public class UserService {
                     return userRepo.save(user);
                 });
     }
+
+    public void deleteUser(Integer id){
+        User deluser = userRepo.getById(id);
+        userRepo.delete(deluser);
+    }
+
 }

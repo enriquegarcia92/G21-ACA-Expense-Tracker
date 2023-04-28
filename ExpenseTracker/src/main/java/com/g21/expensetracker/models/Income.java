@@ -18,62 +18,75 @@ public class Income {
     private String categoria;
     @Column(nullable=false, length = 255, name = "descripcion")
     private String descripcion;
+
+    @ManyToOne
+    private User user;
+
     public Income() {
     }
 
-    public Income(String nombre, Double monto, String fecha, String categoria, String descripcion) {
+    public Income(String nombre, Double monto, String fecha, String categoria, String descripcion, User user) {
         this.nombre = nombre;
         this.monto = monto;
         this.fecha = fecha;
         this.categoria = categoria;
         this.descripcion = descripcion;
+        this.user = user;
     }
 
     public Integer getIdingreso() {
         return idingreso;
     }
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public Double getMonto() {
-        return monto;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public String getDescripción() {
-        return descripcion;
-    }
-
     public void setIdingreso(Integer idingreso) {
         this.idingreso = idingreso;
+    }
+
+    public String getNombre() {
+        return nombre;
     }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
+    public Double getMonto() {
+        return monto;
+    }
+
     public void setMonto(Double monto) {
         this.monto = monto;
+    }
+
+    public String getFecha() {
+        return fecha;
     }
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
+    public String getCategoria() {
+        return categoria;
+    }
+
     public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
-    public void setDescripción(String descripción) {
-        this.descripcion = descripción;
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,16 +1,11 @@
 package com.g21.expensetracker.models;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,8 +34,6 @@ public class User implements UserDetails {
 	@Column(nullable= false, name = "role")
 	@Enumerated(EnumType.STRING)
 	  private Role role;
-
-
 
 
 	public User() {

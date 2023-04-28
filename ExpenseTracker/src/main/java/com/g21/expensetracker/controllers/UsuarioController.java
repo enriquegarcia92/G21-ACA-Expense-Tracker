@@ -47,4 +47,10 @@ public class UsuarioController {
 		userService.changePassword(newPassword,id);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
 	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity closeAccount(@PathVariable Integer id){
+		userService.deleteUser(id);
+		return ResponseEntity.status(HttpStatus.GONE).build();
+	}
 }
