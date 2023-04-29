@@ -18,7 +18,6 @@ public class Income {
     private String categoria;
     @Column(nullable=false, length = 255, name = "descripcion")
     private String descripcion;
-
     @ManyToOne
     private User user;
 
@@ -88,5 +87,18 @@ public class Income {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "Income{" +
+                "idingreso=" + idingreso +
+                ", nombre='" + nombre + '\'' +
+                ", monto=" + monto +
+                ", fecha='" + fecha + '\'' +
+                ", categoria='" + categoria + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", user=" + user +
+                '}';
     }
 }
