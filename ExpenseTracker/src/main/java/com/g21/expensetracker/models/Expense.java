@@ -19,16 +19,18 @@ public class Expense {
     private String categoria;
     @Column(nullable=false, name = "descripcion")
     private String descripcion;
-
+    @ManyToOne
+    private User user;
     public Expense() {
     }
 
-    public Expense(String nombre, Double monto, String fecha, String categoria, String descripcion) {
+    public Expense(String nombre, Double monto, String fecha, String categoria, String descripcion,User user) {
         this.nombre = nombre;
         this.monto = monto;
         this.fecha = fecha;
         this.categoria = categoria;
         this.descripcion = descripcion;
+        this.user = user;
     }
 
     public Integer getIdgasto() {
@@ -77,5 +79,13 @@ public class Expense {
 
     public void setDescripcion(String descripción) {
         this.descripcion = descripción;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -18,7 +18,6 @@ import java.util.Optional;
 @RequestMapping("/income")
 public class IncomeController {
     @Autowired  IncomeService incomeService;
-    @Autowired IncomeRepository incomerepo;
     @PostMapping("/add/{id}")
     public ResponseEntity createIncome(@RequestBody @Valid Income newIncome, @PathVariable Integer id) {
         incomeService.addIncome(newIncome,id);
