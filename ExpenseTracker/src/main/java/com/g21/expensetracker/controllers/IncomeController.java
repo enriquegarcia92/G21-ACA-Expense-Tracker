@@ -26,15 +26,27 @@ public class IncomeController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/get")
-    public List<Income> findIncomes() {
-        return incomeService.getIncomes();
+    @GetMapping("/get/{id}")
+    public List<Income> findIncomes(@PathVariable Integer id) {
+        return incomeService.getIncomes(id);
     }
 
-    @PutMapping("/edit/{idincome}/{userid}")
-    public ResponseEntity updateIncome(@RequestBody Income updatedIncome, @PathVariable Integer idincome, @PathVariable Integer userid) {
-        incomeService.editIncome(updatedIncome, idincome,userid);
+    @PutMapping("/edit/{idincome}")
+    public ResponseEntity updateIncome(@RequestBody Income updatedIncome, @PathVariable Integer idincome) {
+        incomeService.editIncome(updatedIncome, idincome);
         return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteById(@PathVariable("id") Integer id) {
+        incomeService.deleteIncome(id);
+        return ResponseEntity.status(HttpStatus.GONE).build();
+    }
+
+    @GetMapping("/get/totalincomes/{id}")
+    public Double getTotalIncomes(@PathVariable Integer id)
+    {
+        return incomeService.gettotalIncomes(id);
     }
 
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class IncomeService {
@@ -19,12 +20,11 @@ public class IncomeService {
         return income;
     }
 
-    public List<Income> getIncomes(){
-        return incomeRepo.findAll();
+    public List<Income> getIncomes(Integer id){
+        return incomeRepo.getOnlyMyIncomes(id);
     }
 
-    public Income editIncome(Income newIncome, Integer incomeid,Integer userid){
-        User auxuser = userRepo.getReferenceById(userid);
+    public Income editIncome(Income newIncome, Integer incomeid){
         return incomeRepo.findById(incomeid)
                 .map(income -> {
                     income.setNombre(newIncome.getNombre());
@@ -32,10 +32,18 @@ public class IncomeService {
                     income.setFecha(newIncome.getFecha());
                     income.setCategoria(newIncome.getCategoria());
                     income.setDescripcion(newIncome.getDescripcion());
-                    income.setUser(auxuser);
                     return incomeRepo.save(income);
                 }).orElseGet(() -> {
                     return incomeRepo.save(newIncome);
                 });
+    }
+
+    public void deleteIncome(Integer id) {
+        Income delincome = incomeRepo.getReferenceById(id);
+        incomeRepo.delete(delincome);
+    }
+
+    public Double gettotalIncomes(Integer id){
+        return incomeRepo.getTotalIncomes(id);
     }
 }
