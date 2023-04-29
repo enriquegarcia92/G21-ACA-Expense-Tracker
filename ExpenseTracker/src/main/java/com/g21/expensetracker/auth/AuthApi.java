@@ -4,6 +4,8 @@ import java.net.URI;
 
 import javax.validation.Valid;
 
+import com.g21.expensetracker.services.AuthService;
+import com.g21.expensetracker.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,43 +21,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.g21.expensetracker.Models.Role;
-import com.g21.expensetracker.Models.User;
+import com.g21.expensetracker.models.Role;
+import com.g21.expensetracker.models.User;
 import com.g21.expensetracker.jwt.JwtTokenUtil;
 import com.g21.expensetracker.repositories.UsuarioRepository;
-
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/auth")
 public class AuthApi {
-	@Autowired AuthenticationManager authManager;
-	@Autowired JwtTokenUtil jwtUtil;
-	@Autowired UsuarioRepository userRepo;
-	
+	@Autowired AuthService authService;
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request){
 		try {
-			Authentication authentication = authManager.authenticate(
-					new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword())
-					);
-			User user = (User) authentication.getPrincipal();
-			String accesToken=jwtUtil.generateAccesToken(user);
-			AuthResponse response = new AuthResponse(user.getUsername(), accesToken,user.getId());
-			return ResponseEntity.ok(response);
+			return ResponseEntity.ok(authService.login(request));
 		} catch (BadCredentialsException ex) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		}
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<User> createUser(@RequestBody @Valid User newUser) {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		String rawPasword= newUser.getPassword();
-		String encodedPassword=passwordEncoder.encode(rawPasword);
-		User auxuser = new User(newUser.getNombrecompleto(),newUser.getEmail(),encodedPassword,Role.USER);
-	    User user = userRepo.save(auxuser);
-	    URI userURI= URI.create("/usuario/"+user.getId());
-	    return ResponseEntity.created(userURI).body(user);
+	public ResponseEntity createUser(@RequestBody @Valid User newUser) {
+			authService.register(newUser);
+			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
 }

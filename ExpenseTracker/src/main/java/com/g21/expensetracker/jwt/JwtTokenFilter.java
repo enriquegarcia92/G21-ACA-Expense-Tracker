@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.Claims;
-import com.g21.expensetracker.Models.User;
+import com.g21.expensetracker.models.User;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter{
