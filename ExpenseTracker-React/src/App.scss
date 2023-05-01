@@ -1,0 +1,18 @@
+
+/* for conditional rendering of elements
+    set className "offscreen" to hide 
+    an element*/
+.offscreen{
+    display: none;
+}
+
+/* alerts: this is an override of the bootstrap class
+ only used to increase font size on alert type elements*/
+
+.alert{
+    font-size: 1.5rem;
+    
+    i{
+        font-size: 1.5rem;
+    }
+}
