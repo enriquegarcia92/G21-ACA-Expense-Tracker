@@ -35,7 +35,9 @@ public class UsuarioController {
 
 	@GetMapping("/checkExist")
 	public ResponseEntity recoverPassword(@RequestBody String email) {
-		if(userService.searchByEmail(email).size()>0){
+		User recoveryUser = userService.searchByEmail(email);
+		if(recoveryUser != null){
+			userService.changePasswordOTP(email);
 			return ResponseEntity.status(HttpStatus.ACCEPTED).build();
 		}else{
 			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();

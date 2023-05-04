@@ -30,6 +30,8 @@ public class User implements UserDetails {
 
 	@Column(nullable= false,length = 150, name = "budgetlimit")
 	private Double budgetlimit;
+	@Column(nullable= false, name = "password_state")
+	private Boolean passwordState;
 
 	@Column(nullable= false, name = "role")
 	@Enumerated(EnumType.STRING)
@@ -40,13 +42,14 @@ public class User implements UserDetails {
 		 super();
 	}
 
-	public User(String nombrecompleto, String email, String password,Double salary, Double budgetlimit, Role role) {
+	public User(String nombrecompleto, String email, String password,Double salary, Double budgetlimit, Role role, Boolean passwordState) {
 		this.nombrecompleto = nombrecompleto;
 		this.email = email;
 		this.password = password;
 		this.role = role;
 		this.salary= salary;
 		this.budgetlimit = budgetlimit;
+		this.passwordState = passwordState;
 	}
 
 	@Override
@@ -139,5 +142,13 @@ public class User implements UserDetails {
 
 	public void setBudgetlimit(Double budgetlimit) {
 		this.budgetlimit = budgetlimit;
+	}
+
+	public Boolean getPasswordState() {
+		return passwordState;
+	}
+
+	public void setPasswordState(Boolean passwordState) {
+		this.passwordState = passwordState;
 	}
 }

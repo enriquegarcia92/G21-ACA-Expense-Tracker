@@ -13,6 +13,6 @@ public interface UsuarioRepository extends JpaRepository<User,Integer>{
 	Optional<User>findByEmail(String email);
 
 	@Query("SELECT u FROM User u WHERE u.email =?1")
-	List<User>findExistence(String email);
+	User UserfindExistence(String email);
 
 }
