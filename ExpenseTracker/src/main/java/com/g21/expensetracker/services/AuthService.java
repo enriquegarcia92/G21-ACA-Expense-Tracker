@@ -24,7 +24,7 @@ public class AuthService {
         Double salary = 0.0, limit = 0.0;
         String rawPasword= newUser.getPassword();
         String encodedPassword=passwordEncoder.encode(rawPasword);
-        User auxuser = new User(newUser.getNombrecompleto(),newUser.getEmail(),encodedPassword,salary,limit, Role.USER);
+        User auxuser = new User(newUser.getNombrecompleto(),newUser.getEmail(),encodedPassword,salary,limit, Role.USER,Boolean.FALSE);
         User user = userRepo.save(auxuser);
         return user;
     }

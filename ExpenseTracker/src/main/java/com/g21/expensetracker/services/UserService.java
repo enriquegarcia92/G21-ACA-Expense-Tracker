@@ -10,20 +10,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class UserService {
+    @Autowired SendEmailService emailService;
     @Autowired UsuarioRepository userRepo;
-    public User register(User newUser){
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        Double salary = 0.0, limit = 0.0;
-        String rawPasword= newUser.getPassword();
-        String encodedPassword=passwordEncoder.encode(rawPasword);
-        User auxuser = new User(newUser.getNombrecompleto(),newUser.getEmail(),encodedPassword,salary,limit, Role.USER);
-        User user = userRepo.save(auxuser);
-        return user;
-    }
-
     public List<User> getUsers(){
         return userRepo.findAll();
     }
@@ -68,8 +60,8 @@ public class UserService {
     }
 
 
-    public List<User> searchByEmail(String email) {
-        List<User> usuario = userRepo.findExistence(email);
+    public User searchByEmail(String email) {
+        User usuario = userRepo.UserfindExistence(email);
         return usuario;
     }
 
@@ -79,13 +71,37 @@ public class UserService {
         return userRepo.findById(id)
                 .map(user -> {
                     user.setPassword(encodedPassword);
+                    user.setPasswordState(Boolean.FALSE);
                     return userRepo.save(user);
                 });
     }
 
+
     public void deleteUser(Integer id){
         User deluser = userRepo.getById(id);
         userRepo.delete(deluser);
+    }
+
+    static String generateOTP(int len){
+        String numbers ="0123456789";
+        Random rndm_method = new Random();
+        StringBuilder sb = new StringBuilder(len);
+        for(int i = 0; i < len; i++){
+            sb.append(numbers.charAt(rndm_method.nextInt(numbers.length())));
+        }
+        return sb.toString();
+    }
+    public Optional<User> changePasswordOTP(String email) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return userRepo.findByEmail(email)
+                .map(user -> {
+                    String otp = generateOTP(8);
+                    emailService.sendEmail(user.getEmail(), "Saludos "+user.getNombrecompleto()+" este correo es para informarle que se ha cambiado su contraseña, favor usar contraseña provisional: " + otp, "Cambio de contraseña Expense Tracker");
+                    String encodedPassword=passwordEncoder.encode(otp);
+                    user.setPassword(encodedPassword);
+                    user.setPasswordState(Boolean.TRUE);
+                    return userRepo.save(user);
+                });
     }
 
 }
