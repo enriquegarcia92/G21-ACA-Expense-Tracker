@@ -14,7 +14,6 @@ import java.util.Random;
 
 @Service
 public class UserService {
-    @Autowired SendEmailService emailService;
     @Autowired UsuarioRepository userRepo;
     public List<User> getUsers(){
         return userRepo.findAll();
@@ -58,11 +57,9 @@ public class UserService {
                 });
 
     }
-
-
-    public User searchByEmail(String email) {
-        User usuario = userRepo.UserfindExistence(email);
-        return usuario;
+    public void deleteUser(Integer id){
+        User deluser = userRepo.getById(id);
+        userRepo.delete(deluser);
     }
 
     public Optional<User> changePassword(String newPassword, Integer id) {
@@ -76,32 +73,5 @@ public class UserService {
                 });
     }
 
-
-    public void deleteUser(Integer id){
-        User deluser = userRepo.getById(id);
-        userRepo.delete(deluser);
-    }
-
-    static String generateOTP(int len){
-        String numbers ="0123456789";
-        Random rndm_method = new Random();
-        StringBuilder sb = new StringBuilder(len);
-        for(int i = 0; i < len; i++){
-            sb.append(numbers.charAt(rndm_method.nextInt(numbers.length())));
-        }
-        return sb.toString();
-    }
-    public Optional<User> changePasswordOTP(String email) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return userRepo.findByEmail(email)
-                .map(user -> {
-                    String otp = generateOTP(8);
-                    emailService.sendEmail(user.getEmail(), "Saludos "+user.getNombrecompleto()+" este correo es para informarle que se ha cambiado su contraseña, favor usar contraseña provisional: " + otp, "Cambio de contraseña Expense Tracker");
-                    String encodedPassword=passwordEncoder.encode(otp);
-                    user.setPassword(encodedPassword);
-                    user.setPasswordState(Boolean.TRUE);
-                    return userRepo.save(user);
-                });
-    }
 
 }

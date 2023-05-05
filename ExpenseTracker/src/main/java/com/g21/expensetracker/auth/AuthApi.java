@@ -15,11 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.g21.expensetracker.models.Role;
 import com.g21.expensetracker.models.User;
@@ -47,4 +43,18 @@ public class AuthApi {
 			authService.register(newUser);
 			return ResponseEntity.status(HttpStatus.CREATED).build();
 		}
+
+	@GetMapping("/recoverpassword")
+	public ResponseEntity recoverPassword(@RequestBody String email) {
+		User recoveryUser = authService.searchByEmail(email);
+		if(recoveryUser != null){
+			System.out.println("userfound");
+			authService.changePasswordOTP(email);
+			return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+		}else{
+			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+		}
+	}
+
+
 }

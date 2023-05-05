@@ -33,26 +33,16 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
 	}
 
-	@GetMapping("/checkExist")
-	public ResponseEntity recoverPassword(@RequestBody String email) {
-		User recoveryUser = userService.searchByEmail(email);
-		if(recoveryUser != null){
-			userService.changePasswordOTP(email);
-			return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-		}else{
-			return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
-		}
-	}
-
-	@PutMapping("/recovery/{id}")
-	public ResponseEntity resetPassword(@RequestBody String newPassword, @PathVariable Integer id){
-		userService.changePassword(newPassword,id);
-		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-	}
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity closeAccount(@PathVariable Integer id){
 		userService.deleteUser(id);
 		return ResponseEntity.status(HttpStatus.GONE).build();
+	}
+
+	@PutMapping("/recoveryOTP/{id}")
+	public ResponseEntity resetPassword(@RequestBody String newPassword, @PathVariable Integer id){
+		userService.changePassword(newPassword,id);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
 	}
 }
