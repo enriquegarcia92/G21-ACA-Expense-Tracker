@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect } from "react";
+import axios from '../../api/Axios'
 import "../sign-up/SignUp.scss";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
+const REGISTER_URL = '/auth/register';
 
 const SignUp = () => {
   const userRef = useRef();
@@ -60,7 +62,7 @@ const SignUp = () => {
     setErrMsg("");
   }, [user, email, pwd, pwdMatch]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const v1 = USER_REGEX.test(user);
     const v2 = EMAIL_REGEX.test(email);
@@ -70,14 +72,23 @@ const SignUp = () => {
       setErrMsg("Invalid Entry");
     }
 
-    try {
-      const response = import("../sign-up/Register.js").then((Register) => {
-        Register.Register(user, email, pwd);
-      });
-      setSuccess(true);
-    } catch (err) {
-      if (!err?.response) {
-        setErrMsg("No Server Response");
+    try{
+      const response = await axios.post(REGISTER_URL, 
+          JSON.stringify({nombrecompleto: user, email, password: pwd}), 
+          {
+            headers: {'content-type' : 'application/json'}, 
+            withCredentials: false
+          })
+
+          if (response.status === 201){
+            setSuccess(true)
+          }
+
+    }catch (err){
+      if(!err.response){
+        setErrMsg('No server response')
+      }else if (err.response?.status === 500){
+        setErrMsg('Username or email previously registered, use a new username or email.')
       }
     }
   };
@@ -89,7 +100,7 @@ const SignUp = () => {
           <p className= "alert alert-success">
             Account created succesfully!
           </p>
-          <a href="log-in/Login.jsx" className="btn btn-success">
+          <a href="/log-in/LogIn.jsx" className="btn btn-success">
             Log in <i className="bi bi-box-arrow-in-right"/>
           </a>
         </div>

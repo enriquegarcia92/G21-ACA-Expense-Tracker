@@ -22,7 +22,7 @@ public class User implements UserDetails {
 	private String nombrecompleto;
 	@Column(nullable= false, unique= true, length= 150 ,name = "email")
 	private String email;
-	@Column(nullable= false, length=64, name = "password")
+	@Column(nullable= false, length=128, name = "password")
 	private String password;
 
 	@Column(nullable= false, name = "salary")
