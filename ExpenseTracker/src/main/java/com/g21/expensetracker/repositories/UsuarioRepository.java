@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface UsuarioRepository extends JpaRepository<User,Integer>{
 	Optional<User>findByEmail(String email);
+	Optional<User>findByNombrecompleto(String nombrecompleto);
+
 
 	@Query("SELECT u FROM User u WHERE u.email =?1")
 	User UserfindExistence(String email);

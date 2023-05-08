@@ -37,4 +37,26 @@ public class AuthService {
         AuthResponse response = new AuthResponse(user.getUsername(), accesToken,user.getId());
         return response;
     }
+<<<<<<< Updated upstream
+=======
+
+    public User searchByEmail(String email) {
+        User usuario = userRepo.UserfindExistence(email);
+        return usuario;
+    }
+
+    public Optional<User> changePasswordOTP(String email) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        return userRepo.findByEmail(email)
+                .map(user -> {
+                    Otp otp = new Otp();
+                    String auxotp = otp.generateOTP(8);
+                    emailService.sendEmail(user.getEmail(), "Saludos "+user.getNombrecompleto()+" este correo es para informarle que se ha cambiado su contraseña, favor usar contraseña provisional: " + auxotp, "Cambio de contraseña Expense Tracker");
+                    String encodedPassword=passwordEncoder.encode(auxotp);
+                    user.setPassword(encodedPassword);
+                    user.setPasswordState(Boolean.TRUE);
+                    return userRepo.save(user);
+                });
+    }
+>>>>>>> Stashed changes
 }

@@ -18,7 +18,7 @@ public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Integer id;
-	@Column(nullable= false, unique= true, length= 150 ,name = "nombrecompleto")
+	@Column(nullable= false, length= 150 ,name = "nombrecompleto")
 	private String nombrecompleto;
 	@Column(nullable= false, unique= true, length= 150 ,name = "email")
 	private String email;

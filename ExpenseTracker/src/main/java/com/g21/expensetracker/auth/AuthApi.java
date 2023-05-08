@@ -44,7 +44,12 @@ public class AuthApi {
 	
 	@PostMapping("/register")
 	public ResponseEntity createUser(@RequestBody @Valid User newUser) {
-			authService.register(newUser);
-			return ResponseEntity.status(HttpStatus.CREATED).build();
+			User repeatedUser = authService.searchByEmail(newUser.getEmail());
+			if(repeatedUser != null){
+				return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			}else {
+				authService.register(newUser);
+				return ResponseEntity.status(HttpStatus.CREATED).build();
+			}
 		}
 }
