@@ -11,7 +11,7 @@ const PwdRecovery = () => {
   }
 
   return (
-    <div className="pageContainer">
+    <div className="pageVContainer">
       <form className="pwdRecoveryForm" onSubmit={handleSubmit}>
         <h1>Recover your password</h1>
         <p className="alert alert-light">
