@@ -1,21 +1,20 @@
 import React from "react";
 import "../log-in/Login.scss";
-import { useRef, useState, useEffect, useContext } from "react";
-import AuthContext from "../../context/AuthProvider";
+import { useRef, useState, useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
 import axios from "../../api/Axios";
+import { useNavigate } from "react-router-dom";
 
 const LOGIN_URL = "/auth/login";
 
 const LogIn = () => {
-  const { setAuth } = useContext(AuthContext);
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
   const userRef = useRef();
   const errRef = useRef();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState("");
-  const [token, setToken] = useState("");
-  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     userRef.current.focus();
@@ -26,7 +25,9 @@ const LogIn = () => {
   }, [email, password]);
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+
     try {
       const response = await axios.post(
         LOGIN_URL,
@@ -35,13 +36,19 @@ const LogIn = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-      setSuccess(true);
-      console.log(success);
+
       const accessToken = response?.data?.accesToken;
+
       setAuth({ email, password, accessToken });
+
       setEmail("");
+      
       setPassword("");
+
+      navigate("/dashboard", { replace: true });
+
     } catch (err) {
+      
       if (!err.response) {
         setErrMsg("No server response.");
       } else if (err.response?.status === 400) {
@@ -95,9 +102,10 @@ const LogIn = () => {
               placeholder="Password"
             />
           </div>
-          <button className="btn btn-primary" type="submit">
+          <button className="btn btn-primary mb-3" type="submit">
             Sign in <i className="bi bi-box-arrow-in-right"></i>
           </button>
+          <a href="/recoverYourPassword">Don't remember your password?</a>
         </form>
       </div>
     </div>
