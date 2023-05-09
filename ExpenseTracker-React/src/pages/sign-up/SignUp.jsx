@@ -100,7 +100,7 @@ const SignUp = () => {
           <p className= "alert alert-success">
             Account created succesfully!
           </p>
-          <a href="/log-in/LogIn.jsx" className="btn btn-success">
+          <a href="/login" className="btn btn-success">
             Log in <i className="bi bi-box-arrow-in-right"/>
           </a>
         </div>
