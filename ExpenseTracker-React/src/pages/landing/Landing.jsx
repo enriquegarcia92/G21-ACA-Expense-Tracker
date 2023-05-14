@@ -21,10 +21,10 @@ const Landing = () => {
           </h1>
           <ul class="nav-links">
             <li>
-              <a href={SignUp}>Registrarse</a>
+              <a href='/register'>Registrarse</a>
             </li>
             <li>
-              <a href={LogIn}>Iniciar Sesión</a>
+              <a href='/login'>Iniciar Sesión</a>
             </li>
            
           </ul>

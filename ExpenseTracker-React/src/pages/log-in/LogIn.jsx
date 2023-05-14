@@ -1,15 +1,14 @@
 import React from "react";
 import "../log-in/Login.scss";
 import { useRef, useState, useEffect } from "react";
-import useAuth from "../../hooks/useAuth";
 import axios from "../../api/Axios";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LOGIN_URL = "/auth/login";
 
 const LogIn = () => {
-  const { setAuth } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const userRef = useRef();
   const errRef = useRef();
   const [email, setEmail] = useState("");
@@ -18,6 +17,9 @@ const LogIn = () => {
 
   useEffect(() => {
     userRef.current.focus();
+    if (localStorage.getItem("token")) {
+      localStorage.clear("token");
+    }
   }, []);
 
   useEffect(() => {
@@ -25,9 +27,7 @@ const LogIn = () => {
   }, [email, password]);
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-
     try {
       const response = await axios.post(
         LOGIN_URL,
@@ -36,19 +36,13 @@ const LogIn = () => {
           headers: { "Content-Type": "application/json" },
         }
       );
-
-      const accessToken = response?.data?.accesToken;
-
-      setAuth({ email, password, accessToken });
-
-      setEmail("");
-      
-      setPassword("");
-
+      setEmail('');
+      setPassword('');
+      localStorage.setItem("email", response.data.email);
+      localStorage.setItem("token", response.data.accesToken);
       navigate("/dashboard", { replace: true });
 
     } catch (err) {
-      
       if (!err.response) {
         setErrMsg("No server response.");
       } else if (err.response?.status === 400) {
@@ -102,7 +96,7 @@ const LogIn = () => {
               placeholder="Password"
             />
           </div>
-          <button className="btn btn-primary mb-3" type="submit">
+          <button className="btn btn-primary mb-3">
             Sign in <i className="bi bi-box-arrow-in-right"></i>
           </button>
           <a href="/recoverYourPassword">Don't remember your password?</a>

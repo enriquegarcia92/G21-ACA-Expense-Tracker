@@ -1,13 +1,16 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "./hooks/useAuth";
+import { useEffect } from "react";
+import jwtDecode from "jwt-decode";
 
 const RequireAuth = () =>{
-    const {auth} = useAuth();
+
+    const token = localStorage.getItem("token")
+    const decodedToken = jwtDecode(token)
+    var dateNow = new Date();
     const location = useLocation();
-    console.log(auth);
 
     return (
-        auth?.accessToken
+        token && decodedToken.exp*1000 < dateNow.getTime() === false
         ? <Outlet/>
         : <Navigate to='/login' state={{from: location}} replace/>
     );
