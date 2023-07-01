@@ -1,18 +1,18 @@
-import React from 'react'
-import Navbar from '../../features/NavbarWithDrawer';
-import InfoCards from '../../features/infoCards/InfoCards';
-import Transactions from '../../features/transactions/Transactions';
+import React from "react";
+import InfoCards from "../../features/infoCards/InfoCards";
+import Transactions from "../../features/transactions/Transactions";
+import NavbarWithDrawer from "../../features/NavbarWithDrawer";
+
 
 const Dashboard = () => {
 
-  const email = localStorage.getItem("email");
   return (
     <div className="dashboardContainer">
-      <Navbar/>
-      <InfoCards/>
-      <Transactions/>
+      <NavbarWithDrawer />
+      <InfoCards />
+      <Transactions />
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

@@ -1,16 +1,18 @@
-import React, { useState } from "react";
-
-const ADD_EXPENSE_URL = "/expense/add/";
+import React, { useState, useEffect} from "react";
+import { generateDate } from "../../utils/utils";
+import axios from "../../api/Axios";
 
 const AddExpense = () => {
   const ADD_EXPENSE_URL = "/expense/add/";
   const [showModal, setShowModal] = useState(false);
   const [number, setNumber] = useState(1);
-  const [category, setCategory] = useState('');
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [amount, setAmount] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [success, setSuccess] = useState(false);
 
   const handleIncrease = () => {
     setNumber(number + 1);
@@ -22,8 +24,19 @@ const AddExpense = () => {
     }
   };
 
+  useEffect(() => {
+    const newTotal = amount * number;
+    setTotal(newTotal);
+  }, [amount, number]);
+
   const handleCloseModal = () => {
     setShowModal(false);
+    setCategory('');
+    setName('');
+    setDescription('');
+    setAmount(0);
+    setNumber(1);
+    setTotal(0);
   };
 
   const handleOpenModal = () => {
@@ -31,32 +44,66 @@ const AddExpense = () => {
   };
 
   const handleCategoryChange = (event) => {
-    setCategory(event.target.value)
-  }
+    setCategory(event.target.value);
+  };
 
   const handleNameChange = (event) => {
-    setName(event.target.value)
-  }  
+    setName(event.target.value);
+  };
 
   const handleDescriptionChange = (event) => {
-    setDescription(event.target.value)
-  }  
+    setDescription(event.target.value);
+  };
 
   const handleAmountChange = (event) => {
-    setAmount(event.target.value)
-  }  
-  
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value)
-  }  
+    setAmount(event.target.value);
+  };
 
-  const handleConfirm = () => {
-    handleCloseModal();
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
+  };
+
+  const handleConfirm = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
+      const currentDate = generateDate();
+      const response = await axios.post(
+        ADD_EXPENSE_URL + userId,
+        JSON.stringify({
+          nombre: name,
+          monto: amount,
+          fecha: currentDate,
+          categoria: category,
+          descripcion: description,
+        }),
+        {
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: false,
+        }
+      );
+
+      if (response.status === 201) {
+        setSuccess(true);
+        setCategory('');
+        setName('');
+        setDescription('');
+        setAmount(0);
+        setNumber(1);
+        setTotal(0);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
     <>
-      <button className="btn btn-primary btn-lg fs-3" onClick={handleOpenModal}>
+      <button className="btn btn-primary btn-lg fs-3 m-3" onClick={handleOpenModal}>
         New Expense
         <i className="bi bi-plus fs-4"></i>
       </button>
@@ -69,9 +116,12 @@ const AddExpense = () => {
         aria-hidden={!showModal}
       >
         <div className="modal-dialog modal-dialog-centered" role="document">
-          <div className="modal-content">
+          <div className="modal-content shadow">
             <div className="modal-header">
               <h5 className="modal-title fs-4">Register Expense</h5>
+              <div className={success ? "container" : "offscreen"}>
+                <p className="alert alert-success ">Expense registered!</p>
+              </div>
               <button
                 type="button"
                 className="btn-close"
@@ -154,8 +204,8 @@ const AddExpense = () => {
                 </button>
               </div>
             </div>
-            <div className="modal-footer">
-              <p className="fs-4">Total: </p>
+            <div className="modal-footer d-flex justify-content-between">
+              <p className="fs-4">Total: ${total}</p>
               <button className="btn btn-success fs-4" onClick={handleConfirm}>
                 Confirm
               </button>

@@ -8,6 +8,7 @@ import Layout from "./Layout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import PwdRecovery from "./pages/pwdRecovery/PwdRecovery";
 import RequireAuth from "./RequireAuth";
+import FinancialHistory from "./pages/dashboard/financialhistory/FinancialHistory";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         {/*Private Routes*/}
         <Route element={<RequireAuth />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="history" element={<FinancialHistory />} />
         </Route>
       </Route>
     </Routes>

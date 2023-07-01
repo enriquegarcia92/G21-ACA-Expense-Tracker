@@ -40,6 +40,7 @@ const LogIn = () => {
       setPassword('');
       localStorage.setItem("email", response.data.email);
       localStorage.setItem("token", response.data.accesToken);
+      localStorage.setItem("userId", response.data.id);
       navigate("/dashboard", { replace: true });
 
     } catch (err) {
