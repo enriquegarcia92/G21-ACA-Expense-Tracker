@@ -9,5 +9,11 @@
     .card{
         height: 80vh;
         width: 90%;
+
+        .card-footer{
+            .form-select{
+                width: 20%;
+            }
+        }
     }
 }

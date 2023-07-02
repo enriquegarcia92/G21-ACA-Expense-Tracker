@@ -103,7 +103,7 @@ const AddExpense = () => {
 
   return (
     <>
-      <button className="btn btn-primary btn-lg fs-3 m-3" onClick={handleOpenModal}>
+      <button className="btn btn-primary btn-lg fs-3 ms-3 shadow" onClick={handleOpenModal}>
         New Expense
         <i className="bi bi-plus fs-4"></i>
       </button>
