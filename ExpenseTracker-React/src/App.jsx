@@ -8,6 +8,10 @@ import Layout from "./Layout";
 import Dashboard from "./pages/dashboard/Dashboard";
 import PwdRecovery from "./pages/pwdRecovery/PwdRecovery";
 import RequireAuth from "./RequireAuth";
+import FinancialHistory from "./pages/dashboard/financialhistory/FinancialHistory";
+import BudgetPlanner from "./pages/dashboard/budgetplanner/BudgetPlanner";
+import Account from "./pages/dashboard/account/Account";
+import TableOfIncomes from "./features/historictransactions/TableOfIncomes";
 
 function App() {
   return (
@@ -21,6 +25,10 @@ function App() {
         {/*Private Routes*/}
         <Route element={<RequireAuth />}>
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="history" element={<FinancialHistory />} />
+          <Route path="budget" element={<BudgetPlanner />} />
+          <Route path="account" element={<Account />} />
+          <Route path="incomeHistory" element={<TableOfIncomes />} />
         </Route>
       </Route>
     </Routes>
