@@ -15,6 +15,8 @@ import java.util.Optional;
 public class IncomeService {
     @Autowired IncomeRepository incomeRepo;
     @Autowired UsuarioRepository userRepo;
+
+
     public Income addIncome(Income newIncome, Integer id){
         Income auxincome = new Income(newIncome.getNombre(),newIncome.getMonto(),newIncome.getFecha(),newIncome.getCategoria(), newIncome.getDescripcion(),userRepo.getReferenceById(id));
         Income income = incomeRepo.save(auxincome);
@@ -58,5 +60,9 @@ public class IncomeService {
 
     public Double gettotalIncomes(Integer id){
         return incomeRepo.getTotalIncomes(id);
+    }
+
+    public Optional<Income> getIncomeDetails(Integer id) {
+        return incomeRepo.findById(id);
     }
 }

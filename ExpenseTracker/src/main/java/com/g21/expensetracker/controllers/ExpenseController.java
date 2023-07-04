@@ -1,6 +1,7 @@
 package com.g21.expensetracker.controllers;
 
 import com.g21.expensetracker.models.Expense;
+import com.g21.expensetracker.models.User;
 import com.g21.expensetracker.services.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,12 +9,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/expense")
 public class ExpenseController {
     @Autowired
     ExpenseService expenseService;
+
+    @GetMapping("/details/{id}")
+    public Optional<Expense> getProfile(@PathVariable Integer id){
+        return expenseService.getExpenseDetails(id);
+    }
 
     @PostMapping("/add/{id}")
     public ResponseEntity createExpense(@RequestBody @Valid Expense newExpense, @PathVariable Integer id) {

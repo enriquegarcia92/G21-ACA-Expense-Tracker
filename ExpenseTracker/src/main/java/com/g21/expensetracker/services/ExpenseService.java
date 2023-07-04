@@ -1,5 +1,6 @@
 package com.g21.expensetracker.services;
 import com.g21.expensetracker.models.Expense;
+import com.g21.expensetracker.models.User;
 import com.g21.expensetracker.repositories.ExpenseRepository;
 import com.g21.expensetracker.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExpenseService {
@@ -58,4 +60,9 @@ public class ExpenseService {
                     return expenseRepo.save(newExpense);
                 });
     }
+
+    public Optional<Expense> getExpenseDetails(Integer id) {
+        return expenseRepo.findById(id);
+    }
+
 }

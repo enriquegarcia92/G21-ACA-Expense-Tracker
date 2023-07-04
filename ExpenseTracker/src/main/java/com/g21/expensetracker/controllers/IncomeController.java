@@ -65,4 +65,11 @@ public class IncomeController {
     }
 
 
+    @GetMapping("/details/{id}")
+    public Optional<Income> getProfile(@PathVariable Integer id){
+        return incomeService.getIncomeDetails(id);
+    }
+
+
+
 }
