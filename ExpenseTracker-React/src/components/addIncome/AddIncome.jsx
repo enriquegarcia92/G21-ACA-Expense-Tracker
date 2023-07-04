@@ -98,6 +98,7 @@ const AddIncome = () => {
       } catch (err) {
         console.log(err);
       }
+      window.location.reload()
     };
   
     return (

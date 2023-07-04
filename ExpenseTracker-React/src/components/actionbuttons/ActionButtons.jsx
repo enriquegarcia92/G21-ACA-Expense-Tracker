@@ -1,12 +1,33 @@
 import React, { useState } from "react";
 import Axios from "../../api/Axios";
+import { generateDate } from "../../utils/utils";
+
 
 const ActionButtons = ({expense}) => {
-  console.log(expense.idgasto)
+  const [category, setCategory] = useState(expense.categoria);
+  const [name, setName] = useState(expense.nombre);
+  const [description, setDescription] = useState(expense.descripcion);
+  const [amount, setAmount] = useState(expense.monto);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const DELETE_EXPENSE_URL = "/expense/delete/";
+  const UPDATE_EXPENSE_URL = "/expense/edit/"
 
+  const handleCategoryChange = (event) => {
+    setCategory(event.target.value);
+  };
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleAmountChange = (event) => {
+    setAmount(event.target.value);
+  };
 
   const handleDeleteClick = () => {
     setShowDeleteModal(true);
@@ -45,8 +66,43 @@ const ActionButtons = ({expense}) => {
     window.location.reload()
   };
 
-  const handleUpdateConfirm = () => {
-    // Perform update operation
+  const handleUpdateConfirm = async (e) => {
+    e.preventDefault();
+    try {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
+      const currentDate = generateDate();
+      const response = await Axios.put(
+        UPDATE_EXPENSE_URL + expense.idgasto,
+        JSON.stringify({
+          nombre: name,
+          monto: amount,
+          fecha: currentDate,
+          categoria: category,
+          descripcion: description,
+        }),
+        {
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: false,
+        }
+      );
+
+      if (response.status === 201) {
+        setSuccess(true);
+        setCategory('');
+        setName('');
+        setDescription('');
+        setAmount(0);
+        setNumber(1);
+        setTotal(0);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    windowl.location.reload()
     setShowUpdateModal(false);
   };
 
@@ -143,8 +199,8 @@ const ActionButtons = ({expense}) => {
                 <select
                   id="categoryField"
                   className="form-select form-select-lg mb-3"
-                  onChange='{handleCategoryChange}'
-                  value='{category}'
+                  onChange={handleCategoryChange}
+                  value={category}
                 >
                   <option value="0">Choose a category</option>
                   <option value="Food">Food</option>
@@ -162,7 +218,7 @@ const ActionButtons = ({expense}) => {
                     id="nameField"
                     placeholder="McDonald's double cheeseburger"
                     value={name}
-                    onChange='{handleNameChange}'
+                    onChange={handleNameChange}
                   />
                 </div>
                 <div class="mb-3">
@@ -174,8 +230,8 @@ const ActionButtons = ({expense}) => {
                     className="form-control form-control-lg"
                     id="descriptionField"
                     placeholder="Description"
-                    value='{description}'
-                    onChange='{handleDescriptionChange}'
+                    value={description}
+                    onChange={handleDescriptionChange}
                   />
                 </div>
                 <label for="amountField" className="form-label">
@@ -188,65 +244,33 @@ const ActionButtons = ({expense}) => {
                     id="amountField"
                     className="form-control form-control-lg"
                     aria-label="Amount (to the nearest dollar)"
-                    value='{amount}'
-                    onChange='{handleAmountChange}'
+                    value={amount}
+                    onChange={handleAmountChange}
                   />
-                </div>
-                <label for="quantityField" className="form-label">
-                  Quantity
-                </label>
-                <div className="input-group input-group-lg">
-                  <button
-                    className="btn btn-secondary"
-                    onClick='{handleDecrease}'
-                  >
-                    -
-                  </button>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value='{number}'
-                    onChange='{handleQuantityChange}'
-                    readOnly
-                  />
-                  <button
-                    className="btn btn-secondary"
-                    onClick='{handleIncrease}'
-                  >
-                    +
-                  </button>
                 </div>
               </div>
               <div className="modal-footer d-flex justify-content-between">
-                <p className="fs-4">Total: ${'total'}</p>
-                <button
-                  className="btn btn-success fs-4"
-                  onClick='{handleConfirm}'
-                >
-                  Confirm
-                </button>
-              </div>
-            </div>{" "}
-          </div>
-          <div className="modal-footer">
-            <button
+              <button
               type="button"
               className="btn btn-secondary"
               data-bs-dismiss="modal"
-              onClick='{handleUpdateModalClose}'
+              onClick={handleUpdateModalClose}
             >
               Close
             </button>
             <button
               type="button"
               className="btn btn-primary"
-              onClick=''
+              onClick={handleUpdateConfirm}
             >
               Confirm
             </button>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
-      </div>
+    
   );
 };
 
