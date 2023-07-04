@@ -6,7 +6,7 @@ import {
   generateColors,
 } from "../../utils/utils";
 import axios from "../../api/Axios";
-import ActionButtons from "../../components/actionbuttons/ActionButtons";
+import ActionButtonsIncome from "../../components/actionbuttons/ActionButtonsIncome";
 
 const TableOfTransactions = () => {
   const { year, monthNumber, monthName } = getCurrentMonth();
@@ -115,7 +115,7 @@ const TableOfTransactions = () => {
                   <td className="fs-5">{item.monto}</td>
                   <td className="fs-5">{item.fecha}</td>
                   <td className="fs-5">
-                    <ActionButtons />
+                  <ActionButtonsIncome income = {income}/>
                   </td>
                 </tr>
               ))}

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import Axios from "../../api/Axios";
 
-const ActionButtons = ({expense}) => {
-  console.log(expense.idgasto)
+const ActionButtonsIncome = ({income}) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const DELETE_EXPENSE_URL = "/expense/delete/";
+  const DELETE_EXPENSE_URL = "/income/delete/";
 
 
   const handleDeleteClick = () => {
@@ -27,7 +26,7 @@ const ActionButtons = ({expense}) => {
     try {
       const token = localStorage.getItem("token");
       const response = await Axios.delete(
-        DELETE_EXPENSE_URL + expense.idgasto,
+        DELETE_EXPENSE_URL + income.idingreso,
         {
           headers: {
             "content-type": "application/json",
@@ -250,4 +249,4 @@ const ActionButtons = ({expense}) => {
   );
 };
 
-export default ActionButtons;
+export default ActionButtonsIncome;

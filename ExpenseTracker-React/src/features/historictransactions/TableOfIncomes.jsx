@@ -3,6 +3,7 @@ import NavbarWithDrawer from "../NavbarWithDrawer";
 import Axios from "../../api/Axios";
 import ActionButtons from "../../components/actionbuttons/ActionButtons";
 import { getCurrentMonth } from "../../utils/utils";
+import ActionButtonsIncome from "../../components/actionbuttons/ActionButtonsIncome";
 
 const TableOfIncomes = () => {
   const { year, monthNumber, monthName } = getCurrentMonth();
@@ -111,7 +112,7 @@ const TableOfIncomes = () => {
                     <td className="fs-5">{item.monto}</td>
                     <td className="fs-5">{item.fecha}</td>
                     <td className="fs-5">
-                      <ActionButtons />
+                      <ActionButtonsIncome income = {item}/>
                     </td>
                   </tr>
                 ))}
