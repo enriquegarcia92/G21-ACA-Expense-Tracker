@@ -1,24 +1,20 @@
 package com.g21.expensetracker.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.g21.expensetracker.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.g21.expensetracker.models.User;
-import com.g21.expensetracker.repositories.UsuarioRepository;
 
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
 
-	@Autowired
-	UsuarioRepository userRepo;
 	@Autowired
 	UserService userService;
 
@@ -26,7 +22,10 @@ public class UsuarioController {
 	public List<User> list() {
 		return userService.getUsers();
 	}
-
+	@GetMapping("/get/{id}")
+	public Optional<User> getProfile(@PathVariable Integer id){
+		return userService.getUserDetails(id);
+	}
 	@PutMapping("/edit/{id}")
 	public ResponseEntity updateUser(@RequestBody User updatedUser, @PathVariable Integer id) {
 		userService.editUser(updatedUser, id);

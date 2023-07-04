@@ -20,8 +20,8 @@ public class IncomeService {
         return income;
     }
 
-    public List<Income> getIncomes(Integer id){
-        return incomeRepo.getOnlyMyIncomes(id);
+    public List<Income> getIncomes(Integer id,String query){
+        return incomeRepo.getOnlyMyIncomes(id,query);
     }
 
     public Income editIncome(Income newIncome, Integer incomeid){

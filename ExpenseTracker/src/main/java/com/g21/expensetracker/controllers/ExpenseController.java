@@ -22,8 +22,8 @@ public class ExpenseController {
     }
 
     @GetMapping("/get/{id}")
-    public List<Expense> findExpense(@PathVariable Integer id) {
-        return expenseService.getExpenses(id);
+    public List<Expense> findExpense(@RequestParam("query") String query, @PathVariable Integer id) {
+        return expenseService.getExpenses(id, query);
     }
 
     @PutMapping("/edit/{id}")
@@ -42,6 +42,11 @@ public class ExpenseController {
     public Double getTotalExpenses(@PathVariable Integer id)
     {
         return expenseService.gettotalexpenses(id);
+    }
+
+    @GetMapping("/get/monthlyexpense/{id}")
+    public Double getMonthlyExpensE(@RequestParam("month") String month, @RequestParam("year") String year, @PathVariable Integer id){
+        return expenseService.getMontlyexpense(id,month,year);
     }
 
 }

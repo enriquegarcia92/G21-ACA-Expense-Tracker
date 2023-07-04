@@ -31,7 +31,7 @@ public class AuthApi {
 	@Autowired AuthService authService;
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request){
-		try {
+		try{
 			return ResponseEntity.ok(authService.login(request));
 		} catch (BadCredentialsException ex) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -40,8 +40,13 @@ public class AuthApi {
 	
 	@PostMapping("/register")
 	public ResponseEntity createUser(@RequestBody @Valid User newUser) {
+		User repeatedUser = authService.searchByEmail(newUser.getEmail());
+		if(repeatedUser != null){
+			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+		}else{
 			authService.register(newUser);
 			return ResponseEntity.status(HttpStatus.CREATED).build();
+		}
 		}
 
 	@GetMapping("/recoverpassword")

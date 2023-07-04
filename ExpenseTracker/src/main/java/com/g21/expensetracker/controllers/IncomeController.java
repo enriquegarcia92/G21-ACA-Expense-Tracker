@@ -26,8 +26,8 @@ public class IncomeController {
     }
 
     @GetMapping("/get/{id}")
-    public List<Income> findIncomes(@PathVariable Integer id) {
-        return incomeService.getIncomes(id);
+    public List<Income> findIncomes(@RequestParam("query") String query, @PathVariable Integer id) {
+        return incomeService.getIncomes(id, query);
     }
 
     @PutMapping("/edit/{idincome}")

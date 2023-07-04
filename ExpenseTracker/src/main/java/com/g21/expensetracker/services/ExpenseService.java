@@ -17,8 +17,8 @@ public class ExpenseService {
         Expense expense = expenseRepo.save(auxexpense);
         return expense;
     }
-    public List<Expense> getExpenses(Integer id){
-        return expenseRepo.getOnlyMyExpenses(id);
+    public List<Expense> getExpenses(Integer id, String query){
+        return expenseRepo.getOnlyMyExpenses(id, query);
     }
 
     public void deleteExpense(Integer id) {
@@ -27,6 +27,10 @@ public class ExpenseService {
     }
     public Double gettotalexpenses(Integer id){
         return expenseRepo.getTotalExpense(id);
+    }
+
+    public Double getMontlyexpense(Integer id, String month, String year){
+        return expenseRepo.getTotalExpenseByMonthAndYear(id,month,year);
     }
 
     public Expense editExpense(Expense newExpense, Integer expenseid){

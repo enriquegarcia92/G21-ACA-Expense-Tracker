@@ -19,6 +19,9 @@ public class UserService {
         return userRepo.findAll();
     }
 
+    public Optional<User> getUserDetails(Integer id) {
+        return userRepo.findById(id);
+    }
 
     public User editUser(User newUser, Integer id){
         String rawPasword= newUser.getPassword();
