@@ -19,6 +19,9 @@ public class UserService {
         return userRepo.findAll();
     }
 
+    public Optional<User> getUserDetails(Integer id) {
+        return userRepo.findById(id);
+    }
 
     public User editUser(User newUser, Integer id){
         String rawPasword= newUser.getPassword();
@@ -27,6 +30,17 @@ public class UserService {
         }else{
             return editPass(newUser,id,rawPasword);
         }
+    }
+
+    public User editBudget(User newUser,Integer id){
+        return userRepo.findById(id)
+                .map(user->{
+            user.setBudgetlimit(newUser.getBudgetlimit());
+            user.setBudgetcoment(newUser.getBudgetcoment());
+            return userRepo.save(user);
+        }).orElseGet(()->{
+            return userRepo.save(newUser);
+        });
     }
 
     private User editNoPass(User newUser, Integer id){

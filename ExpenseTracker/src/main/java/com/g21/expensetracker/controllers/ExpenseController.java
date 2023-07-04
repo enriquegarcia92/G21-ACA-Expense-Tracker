@@ -22,8 +22,8 @@ public class ExpenseController {
     }
 
     @GetMapping("/get/{id}")
-    public List<Expense> findExpense(@PathVariable Integer id) {
-        return expenseService.getExpenses(id);
+    public List<Expense> findExpense(@RequestParam("query") String query, @PathVariable Integer id) {
+        return expenseService.getExpenses(id, query);
     }
 
     @PutMapping("/edit/{id}")
@@ -43,5 +43,25 @@ public class ExpenseController {
     {
         return expenseService.gettotalexpenses(id);
     }
+
+    @GetMapping("/get/monthlyexpense/{id}")
+    public Double getMonthlyExpensE(@RequestParam("month") String month, @RequestParam("year") String year, @PathVariable Integer id){
+        return expenseService.getMontlyexpense(id,month,year);
+    }
+
+    @GetMapping("/get/monthcategory/{id}")
+    public List<String> getMonthCategory(@RequestParam("month") String month, @RequestParam("year") String year, @PathVariable Integer id){
+        return expenseService.getMonthCategory(id,month,year);
+    }
+
+    @GetMapping("/get/expensebycategory/{id}")
+    public List<String> getExpenseByCategory(@RequestParam("month") String month, @RequestParam("year") String year, @PathVariable Integer id){
+        return expenseService.getExpenseByCategory(id,month,year);
+    }
+    @GetMapping("/get/expensesbydate/{id}")
+    public List<Expense> getExpenseByCategory(@RequestParam("month") String month, @RequestParam("year") String year, @RequestParam("query") String query, @PathVariable Integer id){
+        return expenseService.getMyExpensesByDate(id,month,year,query);
+    }
+
 
 }

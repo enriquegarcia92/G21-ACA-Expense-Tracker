@@ -1,5 +1,6 @@
 package com.g21.expensetracker.services;
 
+import com.g21.expensetracker.models.Expense;
 import com.g21.expensetracker.models.Income;
 import com.g21.expensetracker.models.User;
 import com.g21.expensetracker.repositories.IncomeRepository;
@@ -20,8 +21,20 @@ public class IncomeService {
         return income;
     }
 
-    public List<Income> getIncomes(Integer id){
-        return incomeRepo.getOnlyMyIncomes(id);
+    public List<Income> getIncomes(Integer id,String query){
+        return incomeRepo.getOnlyMyIncomes(id,query);
+    }
+
+    public List<Income> getMyIncomesByDate(Integer id, String month, String year, String query){
+        return incomeRepo.getOnlyMyIncomesByDate(id,month,year,query);
+    }
+
+    public Double getMontlyIncomeProm(Integer id, String month, String year){
+        return incomeRepo.getAverageIncomeByMonthAndYear(id,month,year);
+    }
+
+    public List<String> getIncomeByCategory(Integer id, String month, String year){
+        return incomeRepo.getTotalAmountByCategoryAndSorted(id,month,year);
     }
 
     public Income editIncome(Income newIncome, Integer incomeid){
