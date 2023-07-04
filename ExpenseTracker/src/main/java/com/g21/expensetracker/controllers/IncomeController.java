@@ -1,5 +1,6 @@
 package com.g21.expensetracker.controllers;
 
+import com.g21.expensetracker.models.Expense;
 import com.g21.expensetracker.models.Income;
 import com.g21.expensetracker.models.User;
 import com.g21.expensetracker.repositories.IncomeRepository;
@@ -47,5 +48,21 @@ public class IncomeController {
     {
         return incomeService.gettotalIncomes(id);
     }
+
+    @GetMapping("/get/searchincomesbydate/{id}")
+    public List<Income> getIncomesByCategory(@RequestParam("month") String month, @RequestParam("year") String year, @RequestParam("query") String query, @PathVariable Integer id){
+        return incomeService.getMyIncomesByDate(id,month,year,query);
+    }
+
+    @GetMapping("/get/monthlyprom/{id}")
+    public Double getMonthlyExpensE(@RequestParam("month") String month, @RequestParam("year") String year, @PathVariable Integer id){
+        return incomeService.getMontlyIncomeProm(id,month,year);
+    }
+
+    @GetMapping("/get/incomebycategory/{id}")
+    public List<String> getIncomeByCategory(@RequestParam("month") String month, @RequestParam("year") String year, @PathVariable Integer id){
+        return incomeService.getIncomeByCategory(id,month,year);
+    }
+
 
 }

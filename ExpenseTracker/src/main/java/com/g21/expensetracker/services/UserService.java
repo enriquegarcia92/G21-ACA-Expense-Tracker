@@ -32,6 +32,17 @@ public class UserService {
         }
     }
 
+    public User editBudget(User newUser,Integer id){
+        return userRepo.findById(id)
+                .map(user->{
+            user.setBudgetlimit(newUser.getBudgetlimit());
+            user.setBudgetcoment(newUser.getBudgetcoment());
+            return userRepo.save(user);
+        }).orElseGet(()->{
+            return userRepo.save(newUser);
+        });
+    }
+
     private User editNoPass(User newUser, Integer id){
         return userRepo.findById(id)
                 .map(user -> {

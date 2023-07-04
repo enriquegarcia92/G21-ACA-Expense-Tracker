@@ -32,6 +32,13 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
 	}
 
+	@PutMapping("/updatebudget/{id}")
+	public ResponseEntity edigBudget(@RequestBody User updatedUser, @PathVariable Integer id) {
+		userService.editBudget(updatedUser, id);
+		return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+	}
+
+
 
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity closeAccount(@PathVariable Integer id){

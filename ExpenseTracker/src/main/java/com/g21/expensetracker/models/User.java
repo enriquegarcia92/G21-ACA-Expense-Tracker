@@ -30,8 +30,11 @@ public class User implements UserDetails {
 
 	@Column(nullable= false,length = 150, name = "budgetlimit")
 	private Double budgetlimit;
+	@Column(nullable= true,length = 150, name = "budgetcoment")
+	private String budgetcoment;
 	@Column(nullable= false, name = "password_state")
 	private Boolean passwordState;
+
 
 	@Column(nullable= false, name = "role")
 	@Enumerated(EnumType.STRING)
@@ -150,5 +153,13 @@ public class User implements UserDetails {
 
 	public void setPasswordState(Boolean passwordState) {
 		this.passwordState = passwordState;
+	}
+
+	public String getBudgetcoment() {
+		return budgetcoment;
+	}
+
+	public void setBudgetcoment(String budgetcoment) {
+		this.budgetcoment = budgetcoment;
 	}
 }
