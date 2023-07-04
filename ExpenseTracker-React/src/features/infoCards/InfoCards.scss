@@ -1,7 +1,15 @@
-.infoCardsContainer{
-height: 20vh;
-display: flex;
-flex-direction: row;
-align-items: center;
-justify-content: space-evenly;
-}
+.infoCardsContainer {
+    height: 20vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  
+    @media (max-width: 768px) {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  }
+  
+  
+  

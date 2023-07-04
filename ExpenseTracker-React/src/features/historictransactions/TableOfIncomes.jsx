@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import NavbarWithDrawer from "../NavbarWithDrawer";
 import Axios from "../../api/Axios";
+import ActionButtons from "../../components/actionbuttons/ActionButtons";
+import { getCurrentMonth } from "../../utils/utils";
 
 const TableOfIncomes = () => {
-  const GET_INCOMES_URL = "/income/get/";
-  const [incomes, setIncomes] = useState([]);
+  const { year, monthNumber, monthName } = getCurrentMonth();
+
+  const GET_INCOMES_BY_DATE_URL = "/income/get/searchincomesbydate/";
+  const [incomesByDate, setIncomesByDate] = useState([]);
+  const [selectedMonth, setSelectedMonth] = useState(monthNumber);
+  const [selectedYear, setSelectedYear] = useState(year);
   const years = Array.from(
     { length: 10 },
     (_, index) => new Date().getFullYear() - index
@@ -24,12 +30,26 @@ const TableOfIncomes = () => {
     "December",
   ];
 
-  const getIncomes = async () => {
+  const handleMonthSelect = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
+  const handleYearSelect = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
+  const getIncomesByDate = async (month, year) => {
     try {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
       const response = await Axios.get(
-        GET_INCOMES_URL + userId,
+        GET_INCOMES_BY_DATE_URL +
+          userId +
+          "?month=" +
+          month +
+          "&year=" +
+          year +
+          "&query=",
         JSON.stringify({
           id: userId,
         }),
@@ -43,15 +63,16 @@ const TableOfIncomes = () => {
       );
 
       console.log(response.data);
-      setIncomes(response.data);
+      setIncomesByDate(response.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    getIncomes();
-  }, []); // Empty dependency array ensures the effect runs only on mount
+    getIncomesByDate(selectedMonth, selectedYear);
+  }, [selectedMonth, selectedYear]); // Empty dependency array ensures the effect runs only on mount
+
 
   return (
     <div className="dashboardContainer">
@@ -60,7 +81,9 @@ const TableOfIncomes = () => {
         <div class="card">
           <div class="card-header fs-2 d-flex flex-row justify-content-between">
             Incomes
-            <a className="btn btn-primary fs-3" href="history">Expenses</a>
+            <a className="btn btn-primary fs-3" href="history">
+              Expenses
+            </a>
           </div>
           <div class="card-body">
             <table class="table table-striped">
@@ -81,12 +104,15 @@ const TableOfIncomes = () => {
                 </tr>
               </thead>
               <tbody>
-                {incomes.map((item) => (
+                {incomesByDate.map((item) => (
                   <tr key={item.id}>
                     <td className="fs-5">{item.nombre}</td>
                     <td className="fs-5">{item.categoria}</td>
                     <td className="fs-5">{item.monto}</td>
                     <td className="fs-5">{item.fecha}</td>
+                    <td className="fs-5">
+                      <ActionButtons />
+                    </td>
                   </tr>
                 ))}
               </tbody>

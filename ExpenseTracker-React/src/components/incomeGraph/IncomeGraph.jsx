@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { Bar, Chart } from "react-chartjs-2";
 import Axios from "../../api/Axios";
+import {getCurrentMonth, processObject, generateColors} from '../../utils/utils'
 import {Chart as Chartjs } from 'chart.js/auto'
 import '../incomeGraph/IncomeGraph.scss'
 
 const IncomeGraph = () => {
-  const GET_INCOME_URL = "/income/get/";
-  const [incomes, setIncomes] = useState([]);
+  const GET_INCOMES_BY_CATEGORY_URL = "/income/get/incomebycategory/";
+  const [incomesByCategory, setIncomesByCategory] = useState([]);
 
-  const getIncomes = async () => {
+  useEffect(() => {
+    //current month data
+    const { year, monthNumber, monthName } = getCurrentMonth();
+    getIncomesByCategory(monthNumber, year)
+    
+  }, []);
+
+  const getIncomesByCategory = async (month, year) => {
     try {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
       const response = await Axios.get(
-        GET_INCOME_URL + userId,
+        GET_INCOMES_BY_CATEGORY_URL + userId + "?month=" + month + "&year=" + year,
         JSON.stringify({
           id: userId,
         }),
@@ -25,23 +33,22 @@ const IncomeGraph = () => {
           withCredentials: false,
         }
       );
-      setIncomes(response.data);
-
+      const processedIncomeEntries = processObject(response.data);
+      console.log(response.data);
+      console.log(processedIncomeEntries);
+      setIncomesByCategory(processedIncomeEntries)
+      
     } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(() => {
-    getIncomes();
-  }, []);
-
   const chartData = {
-    labels: incomes.map((item) => item.nombre),
+    labels: incomesByCategory.map((item) => item.category),
     datasets: [
       {
         label: "Incomes",
-        data: incomes.map((item) => item.monto),
+        data: incomesByCategory.map((item) => item.amount),
         backgroundColor: "rgba(75,192,192,0.4)", // Set the desired background color
         borderColor: "rgba(75,192,192,1)", // Set the desired border color
         borderWidth: 1,
