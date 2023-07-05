@@ -54,9 +54,6 @@ const TableOfTransactions = () => {
           "&year=" +
           year +
           "&query=",
-        JSON.stringify({
-          id: userId,
-        }),
         {
           headers: {
             "content-type": "application/json",

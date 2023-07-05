@@ -51,9 +51,6 @@ const TableOfIncomes = () => {
           "&year=" +
           year +
           "&query=",
-        JSON.stringify({
-          id: userId,
-        }),
         {
           headers: {
             "content-type": "application/json",
@@ -62,8 +59,6 @@ const TableOfIncomes = () => {
           withCredentials: false,
         }
       );
-
-      console.log(response.data);
       setIncomesByDate(response.data);
     } catch (err) {
       console.log(err);
@@ -123,17 +118,19 @@ const TableOfIncomes = () => {
             </table>
           </div>
           <div class="card-footer text-body-secondary d-flex flex-row justify-content-end">
-            <select className="form-select form-select-lg">
+            <select className="form-select form-select-lg"  value={selectedYear}
+            onChange={handleYearSelect}>
               {years.map((year) => (
                 <option key={year} value={year}>
                   {year}
                 </option>
               ))}
             </select>
-            <select className="form-select form-select-lg">
+            <select className="form-select form-select-lg" value={selectedMonth}
+            onChange={handleMonthSelect}>
               {months.map((month, index) => (
-                <option key={index} value={index + 1}>
-                  {month}
+              <option key={index} value={String(index + 1).padStart(2, "0")}>
+              {month}
                 </option>
               ))}
             </select>

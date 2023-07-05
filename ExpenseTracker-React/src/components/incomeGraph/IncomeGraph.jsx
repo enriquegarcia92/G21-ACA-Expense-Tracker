@@ -22,9 +22,6 @@ const IncomeGraph = () => {
       const userId = localStorage.getItem("userId");
       const response = await Axios.get(
         GET_INCOMES_BY_CATEGORY_URL + userId + "?month=" + month + "&year=" + year,
-        JSON.stringify({
-          id: userId,
-        }),
         {
           headers: {
             "content-type": "application/json",
@@ -34,8 +31,6 @@ const IncomeGraph = () => {
         }
       );
       const processedIncomeEntries = processObject(response.data);
-      console.log(response.data);
-      console.log(processedIncomeEntries);
       setIncomesByCategory(processedIncomeEntries)
       
     } catch (err) {

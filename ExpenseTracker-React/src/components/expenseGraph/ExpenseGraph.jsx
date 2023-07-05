@@ -21,19 +21,15 @@ const ExpenseGraph = () => {
       const userId = localStorage.getItem("userId");
       const response = await Axios.get(
         GET_EXPENSES_BY_CATEGORY_URL + userId + "?month=" + month + "&year=" + year,
-        JSON.stringify({
-          id: userId,
-        }),
         {
           headers: {
             "content-type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          withCredentials: false,
+          withCredentials: false
         }
       );
       const processedEntries = processObject(response.data);
-      console.log(response.data);
       setExpensesByCategory(processedEntries)
     } catch (err) {
       console.log(err);
