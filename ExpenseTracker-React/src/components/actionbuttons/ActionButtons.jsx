@@ -102,7 +102,7 @@ const ActionButtons = ({expense}) => {
     } catch (err) {
       console.log(err);
     }
-    windowl.location.reload()
+    window.location.reload()
     setShowUpdateModal(false);
   };
 

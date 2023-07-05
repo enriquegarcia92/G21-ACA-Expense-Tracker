@@ -1,14 +1,29 @@
 import React, { useState } from "react";
 import "./PwdRecovery.scss";
-
+import Axios from "../../api/Axios";
 const PwdRecovery = () => {
-
   const [email, setEmail] = useState("");
+  const PWD_RECOVERY_URL ="/auth/recoverpassword"
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-  }
+    try {
+      const response = await Axios.post(
+        PWD_RECOVERY_URL,
+        JSON.stringify({ email }),
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    } catch (err) {
+     console.log(err)
+    }
+    window.location.reload()
+  };
 
   return (
     <div className="pageVContainer">
@@ -24,7 +39,7 @@ const PwdRecovery = () => {
           <input
             type="email"
             className="form-control"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             value={email}
             required
             placeholder="Email"
