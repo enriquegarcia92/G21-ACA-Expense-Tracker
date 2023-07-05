@@ -1,14 +1,18 @@
-import React from 'react'
-import NavbarWithDrawer from '../../../features/NavbarWithDrawer'
-import AccountForm from './AccountForm'
+import React from "react";
+import NavbarWithDrawer from "../../../features/NavbarWithDrawer";
+import AccountForm from "./AccountForm";
+import AccountFormData from "./AccountFormData";
+import "../account/Account.scss";
 
 const Account = () => {
   return (
     <div className="accountContainer">
-        <NavbarWithDrawer/>
-        <AccountForm/>
+      <NavbarWithDrawer />
+      <div className="accountInfoSection">
+        <AccountFormData />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Account
+export default Account;
