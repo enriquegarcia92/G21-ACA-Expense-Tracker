@@ -8,11 +8,13 @@ const InfoCards = () => {
   const GET_MONTHLY_EXPENSES_URL = "/expense/get/monthlyexpense/";
   const GET_LARGEST_MONTHLY_CATEGORY_EXPENSE_URL = "/expense/get/monthcategory/";
   const [monthlyExpense, setMonthlyExpense] = useState("");
-  const [previousMonthExpense, setPreviousMonthExpense] = useState("");
+  const [previousMonthExpense, setPreviousMonthExpense] = useState("No expenses recorded");
   const [currentMonthName, setCurrentMonthName] = useState("loading...");
   const [previousMonthName, setPreviousMonthName] = useState("loading...");
   const [largestExpenseCategory, setLargestExpenseCategory] = useState("")
   const [lowestExpenseCategory, setLowestExpenseCategory] = useState("")
+  const [budgetlimit, setbudgetlimit] = useState(0.0);
+
 
   useEffect(() => {
     //current month data
@@ -27,8 +29,28 @@ const InfoCards = () => {
 
     //largest category by expense
     getLargestMonthlyExpenseCategory(monthNumber, year)
+    getMyUser()
   }, []);
 
+  const GET_USER_URL = "/usuario/get/";
+
+  const getMyUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
+      const response = await Axios.get(GET_USER_URL + userId, {
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: false,
+      });
+
+      setbudgetlimit(response.data.budgetlimit)
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   // API call for current month data
   const getCurrentMonthExpense = async (month, year) => {
@@ -110,20 +132,13 @@ const InfoCards = () => {
       />
       <InfoCard
         title="Budget Target:"
-        body="$10000"
-        footer="You are 60% below your targeted budget"
+        body={"$" + budgetlimit}
         accentColor="green"
       />
       <InfoCard
         title="Your largest expense this month was:"
         body={largestExpenseCategory}
         footer={"You spent the least on: " + lowestExpenseCategory}
-        accentColor="green"
-      />
-      <InfoCard
-        title="test"
-        body="this is a test card"
-        footer="This is a test footer"
         accentColor="green"
       />
     </div>

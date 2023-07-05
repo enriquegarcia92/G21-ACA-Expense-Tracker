@@ -222,9 +222,10 @@ const SignUp = () => {
           >
             Must match the first password field.
           </p>
-          <button className="btn btn-primary">
+          <button className="btn btn-primary mb-3">
             Sign up <i className="bi bi-check-circle"></i>
           </button>
+          <a href="/login">Already have an account? sign in!</a>
         </form>
       </div>
       <div className="greenBlock"></div>

@@ -101,6 +101,7 @@ const LogIn = () => {
             Sign in <i className="bi bi-box-arrow-in-right"></i>
           </button>
           <a href="/recoverYourPassword">Don't remember your password?</a>
+          <a href="/register">Don't have an account? sign up!</a>
         </form>
       </div>
     </div>

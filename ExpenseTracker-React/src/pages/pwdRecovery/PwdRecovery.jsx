@@ -45,7 +45,8 @@ const PwdRecovery = () => {
             placeholder="Email"
           />
         </div>
-        <button className="btn btn-primary">Send Code</button>
+        <button className="btn btn-primary mb-3">Send Code</button>
+        <a href="/login">Back to login!</a>
       </form>
     </div>
   );

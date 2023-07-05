@@ -72,7 +72,7 @@ const TableOfIncomes = () => {
 
   useEffect(() => {
     getIncomesByDate(selectedMonth, selectedYear);
-  }, [selectedMonth, selectedYear]); // Empty dependency array ensures the effect runs only on mount
+  }, [selectedMonth, selectedYear]); 
 
 
   return (
@@ -101,6 +101,9 @@ const TableOfIncomes = () => {
                   </th>
                   <th scope="col" className="fs-4">
                     Date
+                  </th>
+                  <th scope="col" className="fs-4">
+                    Actions
                   </th>
                 </tr>
               </thead>

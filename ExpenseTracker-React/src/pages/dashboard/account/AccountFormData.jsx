@@ -83,7 +83,7 @@ const AccountFormData = () => {
   }, []); // Empty dependency array ensures the effect runs only on mount
 
   return (
-      <div className="card">
+      <div className="accountUpdate card">
         <div className="card-body d-flex flex-column justify-content-center">
           <h5 className="card-title fs-3 text-center">Update your information</h5>
           <div className="cBInput mb-3">

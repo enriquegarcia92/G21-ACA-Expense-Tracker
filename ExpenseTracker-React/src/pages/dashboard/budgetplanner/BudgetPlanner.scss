@@ -4,3 +4,13 @@
     display: flex;
     flex-direction: row;
 }
+
+@media (max-width: 768px) {
+    .budgetInfoContainer{
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+  }

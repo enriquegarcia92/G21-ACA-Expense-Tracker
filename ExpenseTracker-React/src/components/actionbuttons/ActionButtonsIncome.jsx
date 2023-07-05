@@ -111,14 +111,14 @@ const ActionButtonsIncome = ({income}) => {
   return (
     <div>
       <button
-        className="btn btn-danger"
+        className="btn btn-danger btn-lg me-3"
         data-bs-toggle="modal"
         data-bs-target="#deleteModal"
       >
         Delete
       </button>
       <button
-        className="btn btn-primary"
+        className="btn btn-primary btn-lg"
         data-bs-toggle="modal"
         data-bs-target="#updateModal"
       >

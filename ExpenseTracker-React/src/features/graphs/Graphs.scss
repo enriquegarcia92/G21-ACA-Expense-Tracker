@@ -1,17 +1,43 @@
-.graphsContainer{
-    height: 70vh;
+.graphsContainer {
+    height: 60vh;
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-around;
     align-items: center;
+    row-gap: 100px;
+  }
+  
+  @media (max-width: 768px) {
+    .graphsContainer {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      row-gap: 50px;
 
-    .graphContainer{
-        height: 70vh;
-        width: 50%;
+      .graphContainer {
+        height: 60vh;
+        width: 90%;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        border: 1px gray solid;
+        border-radius: 5px;
+        padding: 25px;
+      }
     }
-}
+  }
+  
+  .graphContainer {
+    height: 50vh;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px gray solid;
+    border-radius: 5px;
+    padding: 25px;
+  }
+
