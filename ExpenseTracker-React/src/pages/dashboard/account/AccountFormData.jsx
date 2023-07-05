@@ -5,12 +5,27 @@ import '../account/FormData.scss'
 
 const AccountFormData = () => {
   const GET_USER_URL = "/usuario/get/";
+  const UPDATE_USER_URL="/usuario/edit/"
   const [user, setUser] = useState([]);
   const [nombrecompleto, setnombrecompleto] = useState(user.nombrecompleto);
   const [email, setemail] = useState(user.email);
   const [password, setpassword] = useState("");
+  const [confirmPassword,setconfirmPassword] = useState("");
   const [salary, setsalary] = useState(0.0);
   const [budgetlimit, setbudgetlimit] = useState(0.0);
+
+  const handleNombrecompletoChange = (event) => {
+    setnombrecompleto(event.target.value);
+  };
+  const handleEmailChange = (event) => {
+    setemail(event.target.value);
+  };
+  const handlePasswordChange = (event) => {
+    setpassword(event.target.value);
+  };
+  const handleConfirmPasswordChange = (event) =>{
+    setconfirmPassword(event.target.value);
+  }
 
   const getMyUser = async () => {
     try {
@@ -32,6 +47,37 @@ const AccountFormData = () => {
     }
   };
 
+  const handleConfirmUpdate = async (e) =>{
+    e.preventDefault();
+    if(password == confirmPassword){
+      try {
+        const token = localStorage.getItem("token");
+        const userId = localStorage.getItem("userId");
+        const response = await Axios.put(
+          UPDATE_USER_URL + userId,
+          JSON.stringify({  
+            nombrecompleto: nombrecompleto,
+            email: email,
+            password: password,
+            salary: salary,
+            budgetlimit: budgetlimit,
+          }),
+          {
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: false,
+          }
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }else{
+      console.log("contraseñas no coinciden");
+    }
+  };
+
   useEffect(() => {
     getMyUser();
   }, []); // Empty dependency array ensures the effect runs only on mount
@@ -50,6 +96,7 @@ const AccountFormData = () => {
               id="targetExpenseField"
               placeholder="Nombre completo"
               value={nombrecompleto}
+              onChange = {handleNombrecompletoChange}
             />
           </div>
           <div className="cBInput mb-3">
@@ -62,6 +109,8 @@ const AccountFormData = () => {
               id="targetExpenseField"
               placeholder="What's your target amount"
               value={email}
+              onChange = {handleEmailChange}
+
             />
           </div>
           <div className="cBInput mb-3">
@@ -73,6 +122,8 @@ const AccountFormData = () => {
               className="form-control form-control-lg"
               id="targetExpenseField"
               placeholder="New password"
+              value = {password}
+              onChange = {handlePasswordChange}
             />
           </div>
           <div className="cBInput mb-5">
@@ -84,9 +135,11 @@ const AccountFormData = () => {
               className="form-control form-control-lg"
               id="targetExpenseField"
               placeholder="Confirm password"
+              value = {confirmPassword}
+              onChange = {handleConfirmPasswordChange}
             />
           </div>
-          <div className="btn btn-success btn-lg fs-3">Update</div>
+          <div className="btn btn-success btn-lg fs-3" onClick={handleConfirmUpdate}>Update</div>
         </div>
       </div>
   );
